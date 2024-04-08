@@ -1,18 +1,71 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: workflow_dispatch
+name: Upload attachments from Jira
+run-name: Upload attachments from ${{ github.event.inputs.issue_key }} to the repository
+on:
+  workflow_dispatch:
+    inputs:
+      issue_key:
+        description: Issue key
+        required: true
+
+env:
+  JIRA_PAT: ${{ secrets.JIRA_PAT }}
+  ISSUE_KEY: ${{ github.event.inputs.issue_key }}
+  RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
 jobs:
-  Explore-GitHub-Actions:
+  build:
     runs-on: self-hosted
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
+      - uses: actions/checkout@v4
+      - name: Download attachments
         run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+          chmod +x .github/scripts/download_attachments.sh
+          . ./.github/scripts/download_attachments.sh
+          
+          
+          # TODO AVAILABLE IN GIT STEP FOR COMPARISON@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+          #********************# WORKAROUND #********************#
+          printf "%s\n" "${downloaded[@]}" > ./jira_temp/arr.txt
+          #********************# WORKAROUND #********************#
+          
+      - name: Move files to config folder TODO FILTERING
+        run: |
+          mv jira_temp/*.csv config/
+          # rm -rf jira_temp ###########################################################
+      - name: Configure git
+        run: |
+          git config --global user.email "rafaumichalak1@gmail.com"
+          git config --global user.name "Rafmic"
+      - name: Add files to repo
+        run: |
+          #********************# WORKAROUND #********************#
+            readarray -t downloaded < ./jira_temp/arr.txt
+            rm -rf jira_temp
+            changed_files=( $(git status --porcelain | cut -c4-) )
+            echo "Files that were already in the repository:"
+            echo ${downloaded[@]} ${changed_files[@]} | tr ' ' '\n' | sort | uniq -u
+          #********************# WORKAROUND #********************#
+
+          if [[ $(git status --porcelain) ]]; then
+            # COMPARE @changed_files WITH downloaded TO POST A COMMENT ABOUT FILES WHICH WERE NOT ADDED TO REPOSITORY @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            
+            echo -e "\nAdding comment to ${ISSUE_KEY} with a list of added/modified file(s)\n"
+            curl -Ssfo /dev/null -L "http://localhost:8080/rest/api/2/issue/${ISSUE_KEY}/comment" \
+                 -H "Content-Type: application/json" \
+                 -H "Authorization: Bearer ${JIRA_PAT}" \
+                 -d '{
+                   "body": "List of files that were added to the repository: \n'"$(printf '* %s\\n' "${changed_files[@]}")"'\nTo view logs go to: '"${RUN_URL}"'\n"
+                 }'
+            
+            git add .
+            git commit -m "Add config files from $ISSUE_KEY issue"
+            git push
+          else
+            echo "Nothing to commit!"
+            curl -Ssfo /dev/null -L "http://localhost:8080/rest/api/2/issue/${ISSUE_KEY}/comment" \
+                 -H "Content-Type: application/json" \
+                 -H "Authorization: Bearer ${JIRA_PAT}" \
+                 -d '{
+                   "body": "No changes were made to the repository.\nTo view logs go to: '"${RUN_URL}"'\n"
+                 }'
+          fi
