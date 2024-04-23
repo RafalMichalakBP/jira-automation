@@ -28,7 +28,7 @@ jobs:
   refresh-dev:
     runs-on: self-hosted
     needs: run-tests
-    if: github.event.pull_request.head.ref == 'dev' && github.event.pull_request.merged == true
+    if: github.event_name == 'push' && github.ref_name == 'dev'
     steps:
       - uses: actions/checkout@v4      
       - name: Configure git
