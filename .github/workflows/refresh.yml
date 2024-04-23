@@ -14,7 +14,7 @@ jobs:
   refresh-dev:
     runs-on: self-hosted
     needs: run-tests
-    if: ${{ github.event.pull_request.base.ref }} == 'dev'
+    if: github.base_ref == 'dev'
     steps:
       - uses: actions/checkout@v4      
       - name: Configure git
@@ -24,7 +24,7 @@ jobs:
   refresh-qa:
     runs-on: self-hosted
     needs: run-tests
-    if: ${{ github.event.pull_request.base.ref }} == 'qa'
+    if: github.base_ref == 'qa'
     steps:
       - uses: actions/checkout@v4      
       - name: Configure git
