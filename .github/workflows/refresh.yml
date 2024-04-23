@@ -1,6 +1,6 @@
 name: Test run
 run-name: ${{ github.event_name == 'push' && format('Attempting to refresh {0} workspace', github.ref_name)
-          || github.event_name == 'pull_request' && format('Testing PR to {0} by @{1}', github.event.pull_request.base.ref, github.actor) }} 
+          || github.event_name == 'pull_request' && format('Testing PR to {0}', github.event.pull_request.base.ref) }} 
 on:
   push:
     branches:
