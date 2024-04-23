@@ -1,5 +1,7 @@
 name: Test run
-run-name: Test run
+run-name: ${{ github.event_name == 'push' && format('Attempting to refresh {0} workspace', github.ref_name)
+          || github.event_name == 'pull_request' && format('Testing PR to {0}', github.event.pull_request.base.ref) }} 
+          by @${{ github.actor }}
 on:
   push:
     branches:
@@ -24,7 +26,7 @@ jobs:
           echo ${{ github.event.pull_request.merged }}
           echo ${{ github.event_name }}
           echo ${{ github.ref_name }}
-          git branch
+          cat .github/workflows/refresh.yml
   refresh-dev:
     runs-on: self-hosted
     needs: run-tests
