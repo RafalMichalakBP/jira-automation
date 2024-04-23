@@ -1,0 +1,48 @@
+name: Test run
+run-name: ${{ github.event_name == 'push' && format('Attempting to refresh {0} workspace', github.ref_name)
+          || github.event_name == 'pull_request' && format('Testing PR to {0}', github.event.pull_request.base.ref) }} 
+on:
+  push:
+    branches:
+      - dev
+      - qa
+      - main
+  pull_request:
+    branches:
+      - dev
+      - qa
+      - main
+
+jobs:
+  run-tests:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4      
+      - name: Run tests
+        run: |
+          echo ${{ github.event.pull_request.head.ref }}
+          echo ${{ github.event.pull_request.base.ref }}
+          echo ${{ github.event.pull_request.merged }}
+          echo ${{ github.event_name }}
+          echo ${{ github.ref_name }}
+          cat .github/workflows/refresh.yml
+  refresh-dev:
+    runs-on: self-hosted
+    needs: run-tests
+    if: github.event_name == 'push' && github.ref_name == 'dev'
+    steps:
+      - uses: actions/checkout@v4      
+      - name: Configure git
+        run: |
+          echo ${{ github.event.pull_request.head.ref }}
+          echo ${{ github.event.pull_request.base.ref }}
+  refresh-qa:
+    runs-on: self-hosted
+    needs: run-tests
+    if: github.event_name == 'push' && github.ref_name == 'qa'
+    steps:
+      - uses: actions/checkout@v4      
+      - name: Configure git
+        run: |
+          git config --global user.email "rafal.michalak@bitpeak.pl"
+          git config --global user.name "RafalMichalakBP"
