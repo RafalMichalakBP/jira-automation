@@ -1,6 +1,11 @@
 name: Test run
 run-name: Test run
 on:
+  push:
+    branches:
+      - dev
+      - qa
+      - main
   pull_request:
     branches:
       - dev
@@ -14,7 +19,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4      
       - name: Run tests
-        run: echo "testing ....."
+        run: |
+          echo ${{ github.event.pull_request.head.ref }}
+          echo ${{ github.event.pull_request.base.ref }}
+          echo ${{ github.event.pull_request.merged }}
+          echo ${{ github.event_name }}
+          echo ${{ github.ref_name }}
   refresh-dev:
     runs-on: self-hosted
     needs: run-tests
