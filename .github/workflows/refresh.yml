@@ -1,5 +1,5 @@
-name: Upload attachments from Jira
-run-name: Upload attachments from ${{ github.event.inputs.issue_key }} to the repository
+name: Test run
+run-name: Test run
 on:
   pull_request:
     types: [opened]
