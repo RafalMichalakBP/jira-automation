@@ -1,5 +1,7 @@
 name: Test run
-run-name: ${{ github.event_name == 'push' && 'Push to ' github.ref_name || github.event_name == 'pull_request' && 'PR to ' github.event.pull_request.base.ref }} by @${{ github.actor }}"
+run-name: ${{ github.event_name == 'push' && 'Push to ${{ github.ref_name }} ' 
+          || github.event_name == 'pull_request' && 'PR to  {{ github.event.pull_request.base.ref }} '}} 
+          by @${{ github.actor }}
 on:
   push:
     branches:
