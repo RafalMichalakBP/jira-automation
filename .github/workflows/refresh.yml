@@ -25,7 +25,7 @@ jobs:
   refresh-dev:
     runs-on: self-hosted
     needs: run-tests
-    if: github.base_ref == 'dev' && github.event_name != 'pull_request'
+    if: github.ref_name == 'dev' && github.event_name != 'pull_request'
     steps:
       - uses: actions/checkout@v4      
       - name: Configure git
@@ -35,7 +35,7 @@ jobs:
   refresh-qa:
     runs-on: self-hosted
     needs: run-tests
-    if: github.base_ref == 'qa' && github.event_name != 'pull_request'
+    if: github.ref_name == 'qa' && github.event_name != 'pull_request'
     steps:
       - uses: actions/checkout@v4      
       - name: Configure git
