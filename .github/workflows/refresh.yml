@@ -15,7 +15,6 @@ on:
 jobs:
   run-tests:
     runs-on: self-hosted
-    # if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v4      
       - name: Run tests
@@ -25,6 +24,7 @@ jobs:
           echo ${{ github.event.pull_request.merged }}
           echo ${{ github.event_name }}
           echo ${{ github.ref_name }}
+          git branch
   refresh-dev:
     runs-on: self-hosted
     needs: run-tests
@@ -38,7 +38,7 @@ jobs:
   refresh-qa:
     runs-on: self-hosted
     needs: run-tests
-    if: github.event.pull_request.head.ref == 'qa' && github.event.pull_request.merged == true
+    if: github.event_name == 'push' && github.ref_name == 'qa'
     steps:
       - uses: actions/checkout@v4      
       - name: Configure git
