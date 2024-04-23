@@ -1,22 +1,16 @@
 name: Test run
 run-name: Test run
 on:
-  push:
-    branches:
-      - dev
-      - qa
-      - main
   pull_request:
     branches:
       - dev
       - qa
       - main
-    
 
 jobs:
   run-tests:
     runs-on: self-hosted
-    if: github.event_name == 'pull_request'
+    # if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v4      
       - name: Run tests
@@ -24,7 +18,7 @@ jobs:
   refresh-dev:
     runs-on: self-hosted
     needs: run-tests
-    if: github.event_name != 'pull_request'
+    if: github.event.pull_request.head.ref == 'dev' && github.event.pull_request.merged == true
     steps:
       - uses: actions/checkout@v4      
       - name: Configure git
@@ -34,7 +28,7 @@ jobs:
   refresh-qa:
     runs-on: self-hosted
     needs: run-tests
-    if: github.ref_name == 'qa' && github.event_name != 'pull_request'
+    if: github.event.pull_request.head.ref == 'qa' && github.event.pull_request.merged == true
     steps:
       - uses: actions/checkout@v4      
       - name: Configure git
