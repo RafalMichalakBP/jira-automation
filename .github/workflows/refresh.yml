@@ -1,0 +1,31 @@
+name: Upload attachments from Jira
+run-name: Upload attachments from ${{ github.event.inputs.issue_key }} to the repository
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  run-tests:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4      
+      - name: Run tests
+        run: echo "testing ....."
+  refresh-dev:
+    runs-on: self-hosted
+    needs: run-tests
+    steps:
+      - uses: actions/checkout@v4      
+      - name: Configure git
+        run: |
+          echo ${{ github.event.pull_request.head.ref }}
+          echo ${{ github.event.pull_request.base.ref }}
+  refresh-qa:
+    runs-on: self-hosted
+    needs: run-tests
+    steps:
+      - uses: actions/checkout@v4      
+      - name: Configure git
+        run: |
+          git config --global user.email "rafal.michalak@bitpeak.pl"
+          git config --global user.name "RafalMichalakBP"
