@@ -7,7 +7,6 @@ on:
       - qa
       - main
   pull_request:
-    types: [opened]
     branches:
       - dev
       - qa
