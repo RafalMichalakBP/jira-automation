@@ -30,6 +30,7 @@ jobs:
         if: github.event_name == 'pull_request'
         run: |
           echo ${{ secrets.NIEISTNIEJACY }}
+          echo ${{ github.event.number }}
   refresh-dev:
     runs-on: self-hosted
     needs: run-tests
