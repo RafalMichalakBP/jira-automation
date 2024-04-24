@@ -30,7 +30,7 @@ jobs:
           echo "frozen job"
           echo $RESULTS
           echo '\n\n\n'
-          echo "${RESULTS//$'\n'/<br>}"
+          echo "${RESULTS//$'\n'/'\r\n'}"
           TEST=$(echo "${RESULTS//$'\n'/<br>}")
           echo -e \n\n\n $TEST
           curl -Ss -H "Authorization: token ${{ secrets.PR_PAT }}" \
