@@ -20,13 +20,13 @@ jobs:
       - uses: actions/checkout@v4      
       - name: Run tests
         run: |
-          python3 -m pytest -s -v --log-file='results.log'
+          python3 -m pytest -s -v | tee results.log
       - name: Comment PR
         if: github.event_name == 'pull_request'
         run: |
           echo ${{ secrets.NIEISTNIEJACY }}
           echo ${{ github.event.number }}
-          RESULTS=$(cat .github/workflows/main.yml)
+          RESULTS=$(cat results.log)
           echo $RESULTS
           echo '\n\n\n'
           echo "${RESULTS//$'\n'/<br>}"
