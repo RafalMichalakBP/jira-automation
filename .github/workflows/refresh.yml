@@ -26,6 +26,9 @@ jobs:
           echo ${{ github.event_name }}
           echo ${{ github.ref_name }}
           cat .github/workflows/refresh.yml
+      - name: Comment PR
+        if: github.event_name == 'pull_request'
+        run: echo 1
   refresh-dev:
     runs-on: self-hosted
     needs: run-tests
