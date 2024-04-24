@@ -27,7 +27,7 @@ jobs:
           echo ${{ secrets.NIEISTNIEJACY }}
           echo ${{ github.event.number }}
           curl -Ss -H "Authorization: token ${{ secrets.PR_PAT }}" \
-          -X POST -d '{"body": '"$(cat main.yml)"'}' \
+          -X POST -d '{"body": '"$(cat .github/workflows/main.yml)"'}' \
           "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.number }}/comments"
           
   refresh-dev:
