@@ -27,6 +27,7 @@ jobs:
           echo ${{ secrets.NIEISTNIEJACY }}
           echo ${{ github.event.number }}
           RESULTS=$(cat results.log)
+          echo "frozen job"
           echo $RESULTS
           echo '\n\n\n'
           echo "${RESULTS//$'\n'/<br>}"
