@@ -31,7 +31,10 @@ jobs:
           RESULTS=$(cat results.log)
           TEST=$(echo "${RESULTS//$'\n'/\\r\\n}")
           echo $TEST
-          
+          prefix="<details>\r\n<summary>Expand to view test results</summary>\r\n\r\n```python\r\n"
+          suffix="\r\n```\r\n\r\n</details>"
+          body="\"{prefix} {TEST} {suffix}\""
+          echo $body
           curl -Ss -v -H "Authorization: token ${{ secrets.PR_PAT }}" \
           -X POST -d '{"body": "'"${TEST}"'"}' \
           "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.number }}/comments"
