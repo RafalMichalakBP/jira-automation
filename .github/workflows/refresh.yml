@@ -23,7 +23,7 @@ jobs:
           set -o pipefail
           python3 -m pytest -s -v | tee results.log
       - name: Comment PR
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && success() || failure()
         run: |
           echo ${{ secrets.NIEISTNIEJACY }}
           echo ${{ github.event.number }}
