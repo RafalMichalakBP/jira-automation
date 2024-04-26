@@ -29,7 +29,7 @@ jobs:
           echo ${{ github.event.number }}
           
           RESULTS=$(cat results.log)
-          TEST=$(echo "${RESULTS//$'\n'/\r\n}")
+          TEST=$(echo "${RESULTS//$'\n'/\\r\\n}")
           echo $TEST
           
           curl -Ss -v -H "Authorization: token ${{ secrets.PR_PAT }}" \
