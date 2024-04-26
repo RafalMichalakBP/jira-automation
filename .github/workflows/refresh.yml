@@ -20,8 +20,7 @@ jobs:
       - uses: actions/checkout@v4      
       - name: Run tests
         run: |
-          python3 -m pytest -s -v 
-          # | tee results.log
+          python3 -m pytest -s -v | tee results.log
       # - name: Comment PR
       #   if: github.event_name == 'pull_request'
       #   run: |
