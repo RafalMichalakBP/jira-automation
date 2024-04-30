@@ -22,6 +22,7 @@ jobs:
           ref: ${{ github.head_ref || github.ref_name }} 
       - name: Run tests
         run: |
+          git branch
           set -o pipefail
           python3 -m pytest -s -v | tee results.log
       - name: Comment PR
