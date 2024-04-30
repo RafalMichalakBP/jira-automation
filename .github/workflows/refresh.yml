@@ -17,7 +17,9 @@ jobs:
   run-tests:
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v4      
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }} 
       - name: Run tests
         run: |
           set -o pipefail
