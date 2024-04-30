@@ -25,6 +25,7 @@ jobs:
       - name: Comment PR
         if: github.event_name == 'pull_request' && success() || failure()
         run: |
+          git branch
           echo ${{ secrets.NIEISTNIEJACY }}
           echo ${{ github.event.number }}
           # commit_short_sha=github.event.pull_request.head.sha
