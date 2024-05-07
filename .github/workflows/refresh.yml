@@ -31,6 +31,7 @@ jobs:
         run: |
           git branch
           echo ${{ secrets.NIEISTNIEJACY }}
+          echo ${{ secrets.SEKRETO }}
           echo ${{ github.event.number }}
           echo ${{ vars.VAR1 }}
           
