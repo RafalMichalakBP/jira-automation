@@ -21,8 +21,12 @@ jobs:
         with:
           # ref: ${{ github.head_ref || github.ref_name }} 
           ref: ${{ github.event.pull_request.head.sha || github.ref_name }} 
+      - name: Create venv
+        run: |
+          python3 -m venv .venv
       - name: Run tests
         run: |
+          source .venv/bin/activate
           git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}
           set -o pipefail
           python3 -m pytest -s -v | tee results.log
