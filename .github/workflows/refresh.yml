@@ -29,6 +29,7 @@ jobs:
           source .venv/bin/activate
           git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}
           set -o pipefail
+          pip install pytest
           python3 -m pytest -s -v | tee results.log
       - name: Comment PR to ${{ github.event.pull_request.base.ref }} branch
         if: github.event_name == 'pull_request' && success() || failure()
