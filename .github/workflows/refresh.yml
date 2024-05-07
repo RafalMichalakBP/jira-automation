@@ -32,6 +32,7 @@ jobs:
           git branch
           echo ${{ secrets.NIEISTNIEJACY }}
           echo ${{ github.event.number }}
+          echo ${{ vars.VAR1 }}
           
           # commit_short_sha=github.event.pull_request.head.sha
           results_raw=$(cat results.log)
