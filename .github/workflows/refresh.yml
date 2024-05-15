@@ -47,7 +47,7 @@ jobs:
           ${{ github.event.pull_request.head.sha }} </summary>\\r\\n\\r\\n\`\`\`python\\r\\n"
           suffix="\\r\\n\`\`\`\\r\\n\\r\\n</details>\""
           
-          warnings_prefix="\\r\\n:exclamation::exclamation::exclamation:\\r\\n"
+          warnings_prefix="\\r\\n\\r\\n\:warning\:\:warning\:\:warning\:\:warning\:\:warning\:\\r\\n"
           
           body="${prefix} ${results_parsed} ${suffix} ${warnings_prefix}"
           
