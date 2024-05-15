@@ -59,7 +59,7 @@ jobs:
             echo $warnings
           fi
           
-          body="\" ${prefix} ${results_parsed} ${suffix} ${warnings_prefix} ${warnings} ${warnings_prefix} \""
+          body="\" ${prefix} ${results_parsed} ${suffix} ${warnings_prefix} ${warnings} \""
 
           echo $body
           echo -e \n\n\n
