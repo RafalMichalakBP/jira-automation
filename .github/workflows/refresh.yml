@@ -48,7 +48,7 @@ jobs:
           suffix="\\r\\n\`\`\`\\r\\n\\r\\n</details>"
 
           warning_signs=$(printf '\\\\:warning\\\\:%.0s' {1..6})
-          warnings_prefix="\\r\\n\\r\\n\\r\\n ${warning_signs} WARNINGS SUMMARY ${warning_signs} \\r\\n\`\`\`python\\r\\n"
+          warnings_prefix="\\r\\n\\r\\n\\r\\n # ${warning_signs} WARNINGS SUMMARY ${warning_signs} \\r\\n\`\`\`python\\r\\n"
           warnings=$(sed -n '/warnings summary/,/===/p' results.log)
           warnings_parsed=$(echo "${warnings//$'\n'/\\r\\n}")
 
