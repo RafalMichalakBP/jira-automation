@@ -48,12 +48,15 @@ jobs:
           suffix="\\r\\n\`\`\`\\r\\n\\r\\n</details>"
 
           body="\" ${prefix} ${results_parsed} ${suffix} \""
-          echo $body
+          echo $body > body.txt
           echo -e \n\n\n
           
           curl -Ss -H "Authorization: token ${{ secrets.PR_PAT }}" \
-          -X POST -d '{"body": '"${body}"'}' \
+          -X POST -d "@body.txt"  \
           "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.number }}/comments"
+          # curl -Ss -H "Authorization: token ${{ secrets.PR_PAT }}" \
+          # -X POST -d '{"body": '"${body}"'}' \
+          # "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.number }}/comments"
           
           warnings=$(sed -n '/warnings summary/,/===/p' results.log)
           
