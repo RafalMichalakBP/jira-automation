@@ -49,7 +49,7 @@ jobs:
           
           warnings_prefix="\\r\\n\\r\\n\:warning\:\:warning\:\:warning\:\:warning\:\:warning\:\\r\\n"
           
-          body="\"${prefix} ${results_parsed} ${suffix} ${warnings_prefix}\""
+          body="\"${prefix} ${results_parsed} ${suffix} \""
           
           curl -Ss -H "Authorization: token ${{ secrets.PR_PAT }}" \
           -X POST -d '{"body": '"${body}"'}' \
