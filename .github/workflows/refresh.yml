@@ -75,6 +75,12 @@ jobs:
             warnings_suffix="\\r\\n\`\`\` \\r\\n## ${warning_signs} REVIEW WARNINGS ${warning_signs} "
             warnings_parsed=$(echo "${warnings//$'\n'/\\r\\n}")
 
+            echo $warnings_parsed
+            echo @@@@@@@@@@@@2
+            echo 
+            echo 
+            echo
+
             warnings_body="{\"body\":\" ${warnings_prefix} ${warnings_parsed} ${warnings_suffix} \",\"event\":\"REQUEST_CHANGES\"}"
             echo $warnings_body > warnings_body.txt
             cat warnings_body.txt
