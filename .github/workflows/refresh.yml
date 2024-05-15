@@ -62,8 +62,8 @@ jobs:
             echo "są warningi, cool"
             
             warning_signs=$(printf '\\\\:warning\\\\:%.0s' {1..6})
-            warnings_prefix="\\r\\n\\r\\n\\r\\n # ${warning_signs} WARNINGS SUMMARY ${warning_signs} \\r\\n\`\`\`python\\r\\n"
-            warnings_suffix="\\r\\n\`\`\` \\r\\n # ${warning_signs} REVIEW WARNINGS ${warning_signs} "
+            warnings_prefix="\\r\\n\\r\\n\\r\\n ## ${warning_signs} WARNINGS SUMMARY ${warning_signs} \\r\\n\`\`\`python\\r\\n"
+            warnings_suffix="\\r\\n\`\`\` \\r\\n ## ${warning_signs} REVIEW WARNINGS ${warning_signs} "
             warnings_parsed=$(echo "${warnings//$'\n'/\\r\\n}")
 
             warnings_body="\" ${warnings_prefix} ${warnings_parsed} ${warnings_suffix} \""
