@@ -50,6 +50,7 @@ jobs:
           warning_signs=$(printf '\\\\:warning\\\\:%.0s' {1..20})
           warnings_prefix="\\r\\n\\r\\n ${warning_signs} \\r\\n"
           warnings=$(sed -n '/warnings summary/,/===/p' results.log)
+
           if [[ -n $warnings ]]; then
             echo "są warningi, cool"
             echo $warnings
@@ -58,7 +59,7 @@ jobs:
             echo $warnings
           fi
           
-          body="\" ${prefix} ${results_parsed} ${suffix} ${warnings_prefix} \""
+          body="\" ${prefix} ${results_parsed} ${suffix} ${warnings_prefix} ${warnings} ${warnings_prefix} \""
 
           echo $body
           echo -e \n\n\n
