@@ -83,7 +83,7 @@ jobs:
             
             # 2) request change with warnings body
             curl -Ss -H "Authorization: token ${{ secrets.PR_PAT_RAFMIC }}" \
-            -X POST -d '{"body":'"${warnings_body}"',"event":"REQUEST_CHANGES"}' \
+            -X POST -d "@warnings_body.txt" \
             "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.number }}/reviews"
             # curl -Ss -H "Authorization: token ${{ secrets.PR_PAT_RAFMIC }}" \
             # -X POST -d '{"body":'"${warnings_body}"',"event":"REQUEST_CHANGES"}' \
