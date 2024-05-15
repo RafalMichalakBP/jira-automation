@@ -46,8 +46,9 @@ jobs:
           prefix="<details>\\r\\n<summary>Expand to view test results for commit \
           ${{ github.event.pull_request.head.sha }} </summary>\\r\\n\\r\\n\`\`\`python\\r\\n"
           suffix="\\r\\n\`\`\`\\r\\n\\r\\n</details>"
-          
-          warnings_prefix="\\r\\n\\r\\n \\\\:warning\\\\: \\r\\n"
+
+          warning_signs=$(printf '\\\\:warning\\\\:%.0s' {1..10})
+          warnings_prefix="\\r\\n\\r\\n ${warning_signs} \\r\\n"
           
           body="\" ${prefix} ${results_parsed} ${suffix} ${warnings_prefix} \""
 
