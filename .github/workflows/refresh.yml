@@ -49,7 +49,7 @@ jobs:
 
           warning_signs=$(printf '\\\\:warning\\\\:%.0s' {1..20})
           warnings_prefix="\`\`\`python\\r\\n\\r\\n\\r\\n ${warning_signs} \\r\\n"
-          warnings=$(echo $results_raw| sed -n '/warnings summary/,/===/p')
+          warnings=$(sed -n '/warnings summary/,/===/p' results.log)
 
           if [[ -n $warnings ]]; then
             echo "są warningi, cool"
