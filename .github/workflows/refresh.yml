@@ -47,7 +47,7 @@ jobs:
           ${{ github.event.pull_request.head.sha }} </summary>\\r\\n\\r\\n\`\`\`python\\r\\n"
           suffix="\\r\\n\`\`\`\\r\\n\\r\\n</details>"
 
-          body="\\{\"body\"\\:\" ${prefix} ${results_parsed} ${suffix} \"\\}"
+          body="{\"body\":\" ${prefix} ${results_parsed} ${suffix} \"}"
           echo $body > body.txt
           echo -e \n\n\n
           cat body.txt
