@@ -71,8 +71,10 @@ jobs:
             warnings_suffix="\\r\\n\`\`\` \\r\\n ## ${warning_signs} REVIEW WARNINGS ${warning_signs} "
             warnings_parsed=$(echo "${warnings//$'\n'/\\r\\n}")
 
-            warnings_body="\" ${warnings_prefix} ${warnings_parsed} ${warnings_suffix} \""
-
+            warnings_body="{\"body\":\" ${warnings_prefix} ${warnings_parsed} ${warnings_suffix} \",\"event\":\"REQUEST_CHANGES\"}"
+            echo $warnings_body > warnings_body.txt
+            cat warnings_body.txt
+            
             # TODO: 
             # 1) add reviewer? who?
             # curl -Ss -H "Authorization: token ${{ secrets.PR_PAT }}" \
@@ -83,6 +85,9 @@ jobs:
             curl -Ss -H "Authorization: token ${{ secrets.PR_PAT_RAFMIC }}" \
             -X POST -d '{"body":'"${warnings_body}"',"event":"REQUEST_CHANGES"}' \
             "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.number }}/reviews"
+            # curl -Ss -H "Authorization: token ${{ secrets.PR_PAT_RAFMIC }}" \
+            # -X POST -d '{"body":'"${warnings_body}"',"event":"REQUEST_CHANGES"}' \
+            # "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.number }}/reviews"
             
           else
             echo "ni ma warningów"
