@@ -47,9 +47,9 @@ jobs:
           ${{ github.event.pull_request.head.sha }} </summary>\\r\\n\\r\\n\`\`\`python\\r\\n"
           suffix="\\r\\n\`\`\`\\r\\n\\r\\n</details>"
 
-          warning_signs=$(printf '\\\\:warning\\\\:%.0s' {1..40})
+          warning_signs=$(printf '\\\\:warning\\\\:%.0s' {1..20})
           warnings_prefix="\\r\\n\\r\\n ${warning_signs} \\r\\n"
-          warnings=$(sed -n '/warnings summary/,/===/p')
+          warnings=$(sed -n '/warnings summary/,/===/p' results.log)
           if [[ -n $warnings ]]; then
             echo "są warningi, cool"
             echo $warnings
