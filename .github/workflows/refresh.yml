@@ -62,6 +62,10 @@ jobs:
           # "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.number }}/comments"
           
           warnings=$(sed -n '/warnings summary/,/===/p' results.log)
+          echo $warnings
+
+          echo @@@@@
+          echo 
           
           if [[ -n $warnings ]]; then
             echo "są warningi, cool"
