@@ -56,13 +56,12 @@ jobs:
           "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.number }}/comments"
           
           warnings=$(sed -n '/warnings summary/,/===/p' results.log)
-
           
           if [[ -n $warnings ]]; then
             echo "są warningi, cool"
             
             warning_signs=$(printf '\\\\:warning\\\\:%.0s' {1..6})
-            warnings_prefix="\\r\\n\\r\\n\\r\\n ## ${warning_signs} WARNINGS SUMMARY ${warning_signs} \\r\\n\`\`\`python\\r\\n"
+            warnings_prefix="## ${warning_signs} WARNINGS SUMMARY ${warning_signs} \\r\\n\`\`\`python\\r\\n"
             warnings_suffix="\\r\\n\`\`\` \\r\\n ## ${warning_signs} REVIEW WARNINGS ${warning_signs} "
             warnings_parsed=$(echo "${warnings//$'\n'/\\r\\n}")
 
@@ -70,9 +69,9 @@ jobs:
 
             # TODO: 
             # 1) add reviewer? who?
-            curl -Ss -H "Authorization: token ${{ secrets.PR_PAT }}" \
-            -X POST -d '{"reviewers":["RafMic"]}' \
-            "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.number }}/requested_reviewers"
+            # curl -Ss -H "Authorization: token ${{ secrets.PR_PAT }}" \
+            # -X POST -d '{"reviewers":["RafMic"]}' \
+            # "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.number }}/requested_reviewers"
             
             # 2) request change with warnings body
             curl -Ss -H "Authorization: token ${{ secrets.PR_PAT_RAFMIC }}" \
