@@ -50,10 +50,11 @@ jobs:
           warning_signs=$(printf '\\\\:warning\\\\:%.0s' {1..20})
           warnings_prefix="\`\`\`python\\r\\n\\r\\n\\r\\n ${warning_signs} \\r\\n"
           warnings=$(sed -n '/warnings summary/,/===/p' results.log)
+          warnings_parsed=$(echo "${warnings//$'\n'/\\r\\n}")
 
           if [[ -n $warnings ]]; then
             echo "są warningi, cool"
-            echo $warnings
+            echo $warnings_parsed
           else
             echo "ni ma warningów"
             echo $warnings
