@@ -47,21 +47,26 @@ jobs:
           ${{ github.event.pull_request.head.sha }} </summary>\\r\\n\\r\\n\`\`\`python\\r\\n"
           suffix="\\r\\n\`\`\`\\r\\n\\r\\n</details>"
 
-          warning_signs=$(printf '\\\\:warning\\\\:%.0s' {1..6})
-          warnings_prefix="\\r\\n\\r\\n\\r\\n # ${warning_signs} WARNINGS SUMMARY ${warning_signs} \\r\\n\`\`\`python\\r\\n"
-          warnings_suffix="\\r\\n\`\`\` \\r\\n # ${warning_signs} REVIEW WARNINGS ${warning_signs} "
           warnings=$(sed -n '/warnings summary/,/===/p' results.log)
-          warnings_parsed=$(echo "${warnings//$'\n'/\\r\\n}")
 
           if [[ -n $warnings ]]; then
             echo "są warningi, cool"
-            echo $warnings_parsed
+            
+            warning_signs=$(printf '\\\\:warning\\\\:%.0s' {1..6})
+            warnings_prefix="\\r\\n\\r\\n\\r\\n # ${warning_signs} WARNINGS SUMMARY ${warning_signs} \\r\\n\`\`\`python\\r\\n"
+            warnings_suffix="\\r\\n\`\`\` \\r\\n # ${warning_signs} REVIEW WARNINGS ${warning_signs} "
+            warnings_parsed=$(echo "${warnings//$'\n'/\\r\\n}")
+
+            body="\" ${prefix} ${results_parsed} ${suffix} ${warnings_prefix} ${warnings_parsed} ${warnings_suffix} \""
+            
           else
             echo "ni ma warningów"
             echo $warnings
+
+            body="\" ${prefix} ${results_parsed} ${suffix} \""
           fi
           
-          body="\" ${prefix} ${results_parsed} ${suffix} ${warnings_prefix} ${warnings_parsed} ${warnings_suffix} \""
+          
 
           echo $body
           echo -e \n\n\n
