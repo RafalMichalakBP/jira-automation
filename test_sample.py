@@ -7,6 +7,7 @@ def api_v1():
 
 
 def test_one():
+    print('"WARN"')
     assert api_v1() == 1
     
 def inc(x):
