@@ -43,6 +43,7 @@ jobs:
           # commit_short_sha=github.event.pull_request.head.sha
           results_raw=$(cat results.log)
           results_parsed=$(echo "${results_raw//$'\n'/\\r\\n}")
+          results_parsed=$(echo "${results_parsed//$'\"'/\\\"}")
           prefix="<details>\\r\\n<summary>Expand to view full test results for commit \
           ${{ github.event.pull_request.head.sha }} </summary>\\r\\n\\r\\n\`\`\`python\\r\\n"
           suffix="\\r\\n\`\`\`\\r\\n\\r\\n</details>"
